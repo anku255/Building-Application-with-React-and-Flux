@@ -49385,20 +49385,25 @@ module.exports = Header;
 "use strict";
 
 const React = require("react");
+const Router = require("react-router");
+const Link = Router.Link;
 
 const Home = React.createClass({displayName: "Home",
   render() {
     return (
       React.createElement("div", {className: "jumbotron"}, 
         React.createElement("h1", null, "Pluralsight Adminitration"), 
-        React.createElement("p", null, "React, React Router, and Flux")
+        React.createElement("p", null, "React, React Router, and Flux"), 
+        React.createElement(Link, {to: "about", className: "btn btn-primary btn-lg"}, 
+          "Learn More"
+        )
       )
     );
   }
 });
 
 module.exports = Home;
-},{"react":197}],206:[function(require,module,exports){
+},{"react":197,"react-router":28}],206:[function(require,module,exports){
 "use strict";
 const React = require("react");
 const Router = require("react-router");

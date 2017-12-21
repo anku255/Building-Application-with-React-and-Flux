@@ -49352,24 +49352,26 @@ module.exports = AuthorPage;
 "use strict";
 
 const React = require("react");
+const Router = require("react-router");
+const Link = Router.Link;
 
 const Header = React.createClass({displayName: "Header",
   render() {
     return (
       React.createElement("nav", {className: "navbar navbar-default"}, 
         React.createElement("div", {className: "container-fluid"}, 
-          React.createElement("a", {href: "/", className: "navbar-brand"}, 
+          React.createElement(Link, {to: "app", className: "navbar-brand"}, 
             React.createElement("img", {src: "images/pluralsight-logo.png", alt: "Pluragsight"})
           ), 
           React.createElement("ul", {className: "nav navbar-nav"}, 
             React.createElement("li", null, 
-              React.createElement("a", {href: "/"}, "Home")
+              React.createElement(Link, {to: "app"}, "Home")
             ), 
             React.createElement("li", null, 
-              React.createElement("a", {href: "/#authors"}, "Authors")
+              React.createElement(Link, {to: "authors"}, "Authors")
             ), 
             React.createElement("li", null, 
-              React.createElement("a", {href: "/#about"}, "About")
+              React.createElement(Link, {to: "about"}, "About")
             )
           )
         )
@@ -49379,7 +49381,7 @@ const Header = React.createClass({displayName: "Header",
 });
 
 module.exports = Header;
-},{"react":197}],205:[function(require,module,exports){
+},{"react":197,"react-router":28}],205:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -49388,7 +49390,6 @@ const Home = React.createClass({displayName: "Home",
   render() {
     return (
       React.createElement("div", {className: "jumbotron"}, 
-      
         React.createElement("h1", null, "Pluralsight Adminitration"), 
         React.createElement("p", null, "React, React Router, and Flux")
       )

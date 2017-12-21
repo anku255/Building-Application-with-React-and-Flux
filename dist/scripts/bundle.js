@@ -29119,28 +29119,6 @@ module.exports = require('./lib/React');
 
 const React = require("react");
 
-const About = React.createClass({displayName: "About",
-  render() {
-    return (
-      React.createElement("div", null, 
-        React.createElement("h1", null, "About"), 
-        React.createElement("p", null, 
-          "This application uses the following technologies:", 
-          React.createElement("ul", null, 
-            React.createElement("li", null, "React")
-          )
-        )
-      )
-    );
-  }
-});
-
-module.exports = About;
-},{"react":157}],159:[function(require,module,exports){
-"use strict";
-
-const React = require("react");
-
 const Home = React.createClass({displayName: "Home",
   render() {
     return (
@@ -29154,18 +29132,11 @@ const Home = React.createClass({displayName: "Home",
 });
 
 module.exports = Home;
-},{"react":157}],160:[function(require,module,exports){
+},{"react":157}],159:[function(require,module,exports){
 $ = jQuery = require("jquery");
 
 const React = require("react");
 const Home = require("../src/components/homePage");
-const About = require("../src/components/about/aboutPage");
-
-// const App = React.createClass({
-//   render() {
-//     form.test
-//   }
-// })
 
 React.render(React.createElement(Home, null), document.getElementById("app"));
-},{"../src/components/about/aboutPage":158,"../src/components/homePage":159,"jquery":1,"react":157}]},{},[160]);
+},{"../src/components/homePage":158,"jquery":1,"react":157}]},{},[159]);

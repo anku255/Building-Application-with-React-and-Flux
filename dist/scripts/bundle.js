@@ -49405,6 +49405,27 @@ const Home = React.createClass({displayName: "Home",
 module.exports = Home;
 },{"react":197,"react-router":28}],206:[function(require,module,exports){
 "use strict";
+
+const React = require("react");
+const Link = require("react-router").Link;
+
+const NotFoundPage = React.createClass({displayName: "NotFoundPage",
+  render() {
+    return (
+      React.createElement("div", null, 
+        React.createElement("h1", null, "Page Not Found"), 
+        React.createElement("p", null, "Whoops! Sorry, there is nothing to see here."), 
+        React.createElement("p", null, 
+          React.createElement(Link, {to: "app"}, "Back to Home")
+        )
+      )
+    );
+  }
+});
+
+module.exports = NotFoundPage;
+},{"react":197,"react-router":28}],207:[function(require,module,exports){
+"use strict";
 const React = require("react");
 const Router = require("react-router");
 const routes = require("./routes");
@@ -49412,7 +49433,7 @@ const routes = require("./routes");
 Router.run(routes, Handler => {
   React.render(React.createElement(Handler, null), document.getElementById("app"));
 });
-},{"./routes":207,"react":197,"react-router":28}],207:[function(require,module,exports){
+},{"./routes":208,"react":197,"react-router":28}],208:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -49420,6 +49441,7 @@ const Router = require("react-router");
 
 const DefaultRoute = Router.DefaultRoute;
 const Route = Router.Route;
+const NotFoundRoute = Router.NotFoundRoute;
 
 const routes = (
   React.createElement(Route, {name: "app", path: "/", handler: require("./components/app")}, 
@@ -49428,9 +49450,10 @@ const routes = (
       name: "authors", 
       handler: require("./components/authors/authorPage")}
     ), 
-    React.createElement(Route, {name: "about", handler: require("./components/about/aboutPage")})
+    React.createElement(Route, {name: "about", handler: require("./components/about/aboutPage")}), 
+    React.createElement(NotFoundRoute, {handler: require("./components/notFoundPage")})
   )
 );
 
 module.exports = routes;
-},{"./components/about/aboutPage":200,"./components/app":201,"./components/authors/authorPage":203,"./components/homePage":205,"react":197,"react-router":28}]},{},[206]);
+},{"./components/about/aboutPage":200,"./components/app":201,"./components/authors/authorPage":203,"./components/homePage":205,"./components/notFoundPage":206,"react":197,"react-router":28}]},{},[207]);

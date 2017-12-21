@@ -29141,6 +29141,34 @@ module.exports = About;
 
 const React = require("react");
 
+const Header = React.createClass({displayName: "Header",
+  render() {
+    return (
+      React.createElement("nav", {className: "navbar navbar-default"}, 
+        React.createElement("div", {className: "container-fluid"}, 
+          React.createElement("a", {href: "/", className: "navbar-brand"}, 
+            React.createElement("img", {src: "images/pluralsight-logo.png", alt: "Pluragsight"})
+          ), 
+          React.createElement("ul", {className: "nav navbar-nav"}, 
+            React.createElement("li", null, 
+              React.createElement("a", {href: "/"}, "Home")
+            ), 
+            React.createElement("li", null, 
+              React.createElement("a", {href: "/#about"}, "About")
+            )
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = Header;
+},{"react":157}],160:[function(require,module,exports){
+"use strict";
+
+const React = require("react");
+
 const Home = React.createClass({displayName: "Home",
   render() {
     return (
@@ -29154,12 +29182,13 @@ const Home = React.createClass({displayName: "Home",
 });
 
 module.exports = Home;
-},{"react":157}],160:[function(require,module,exports){
+},{"react":157}],161:[function(require,module,exports){
 $ = jQuery = require("jquery");
 
 const React = require("react");
 const Home = require("../src/components/homePage");
 const About = require("../src/components/about/aboutPage");
+const Header = require("../src/components/common/header");
 
 const App = React.createClass({displayName: "App",
   render() {
@@ -29175,6 +29204,7 @@ const App = React.createClass({displayName: "App",
 
     return (
       React.createElement("div", null, 
+        React.createElement(Header, null), 
         React.createElement(Child, null)
       )
     );
@@ -29188,4 +29218,4 @@ function render() {
 
 window.addEventListener("hashchange", render);
 render();
-},{"../src/components/about/aboutPage":158,"../src/components/homePage":159,"jquery":1,"react":157}]},{},[160]);
+},{"../src/components/about/aboutPage":158,"../src/components/common/header":159,"../src/components/homePage":160,"jquery":1,"react":157}]},{},[161]);

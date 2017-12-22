@@ -20,6 +20,11 @@ const routes = (
       path="author"
       handler={require("./components/authors/manageAuthorPage")}
     />
+    <Route
+      name="manageAuthor"
+      path="author/:id"
+      handler={require("./components/authors/manageAuthorPage")}
+    />
     <Route name="about" handler={require("./components/about/aboutPage")} />
     <NotFoundRoute handler={require("./components/notFoundPage")} />
     <Redirect from="about/*" to="about" />

@@ -49708,6 +49708,7 @@ module.exports = AuthorFrom;
 "use strict";
 
 const React = require("react");
+const Link = require("react-router").Link;
 
 const AuthorList = React.createClass({displayName: "AuthorList",
   propTypes: {
@@ -49719,7 +49720,9 @@ const AuthorList = React.createClass({displayName: "AuthorList",
       return (
         React.createElement("tr", {key: author.id}, 
           React.createElement("td", null, 
-            React.createElement("a", {href: "/#authors" + author.id}, author.id), 
+            React.createElement(Link, {to: "manageAuthor", params: { id: author.id}}, 
+              author.id
+            ), 
             React.createElement("td", null, 
               author.firstName, " ", author.lastName
             )
@@ -49742,7 +49745,7 @@ const AuthorList = React.createClass({displayName: "AuthorList",
 });
 
 module.exports = AuthorList;
-},{"react":197}],205:[function(require,module,exports){
+},{"react":197,"react-router":28}],205:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -49803,6 +49806,14 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
       errors: {},
       dirty: false
     };
+  },
+
+  componentWillMount() {
+    const authorId = this.props.params.id;
+
+    if (authorId) {
+      this.setState({ author: AuthorApi.getAuthorById(authorId) });
+    }
   },
 
   setAuthorState(event) {
@@ -50001,6 +50012,11 @@ const routes = (
     React.createElement(Route, {
       name: "addAuthor", 
       path: "author", 
+      handler: require("./components/authors/manageAuthorPage")}
+    ), 
+    React.createElement(Route, {
+      name: "manageAuthor", 
+      path: "author/:id", 
       handler: require("./components/authors/manageAuthorPage")}
     ), 
     React.createElement(Route, {name: "about", handler: require("./components/about/aboutPage")}), 

@@ -49662,6 +49662,7 @@ const React = require("react");
 const Input = require("../common/textInput");
 
 const AuthorFrom = React.createClass({displayName: "AuthorFrom",
+  
   render() {
     return (
       React.createElement("form", null, 
@@ -49671,7 +49672,8 @@ const AuthorFrom = React.createClass({displayName: "AuthorFrom",
           label: "First Name", 
           value: this.props.author.firstName, 
           onChange: this.props.onChange, 
-          placeholder: "First Name"}
+          placeholder: "First Name", 
+          error: this.props.errors.firstName}
         ), 
         React.createElement("br", null), 
 
@@ -49680,7 +49682,8 @@ const AuthorFrom = React.createClass({displayName: "AuthorFrom",
           label: "Last Name", 
           value: this.props.author.lastName, 
           onChange: this.props.onChange, 
-          placeholder: "Last Name"}
+          placeholder: "Last Name", 
+          error: this.props.errors.lastName}
         ), 
         React.createElement("br", null), 
         React.createElement("input", {
@@ -49782,7 +49785,8 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
 
   getInitialState() {
     return {
-      author: { id: "", firstName: "", lastName: "" }
+      author: { id: "", firstName: "", lastName: "" },
+      errors: {}
     };
   },
 
@@ -49793,8 +49797,29 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
     return this.setState({ author: this.state.author });
   },
 
+  authorFormIsValid() {
+    let formIsValid = true;
+    this.state.errors = {}; // clear any previous errors.
+
+    if (this.state.author.firstName.length < 3) {
+      this.state.errors.firstName = "First name must be at least 3 characters.";
+      formIsValid = false;
+    }
+    if (this.state.author.lastName.length < 3) {
+      this.state.errors.lastName = "Last name must be at least 3 characters.";
+      formIsValid = false;
+    }
+    this.setState({ errors: this.state.errors });
+    return formIsValid;
+  },
+
   saveAuthor(event) {
     event.preventDefault();
+
+    if (!this.authorFormIsValid()) {
+      return;
+    }
+
     AuthorApi.saveAuthor(this.state.author);
     toastr.success("Author Saved!");
     this.transitionTo("authors");
@@ -49805,7 +49830,8 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
       React.createElement(AuthorForm, {
         author: this.state.author, 
         onChange: this.setAuthorState, 
-        onSave: this.saveAuthor}
+        onSave: this.saveAuthor, 
+        errors: this.state.errors}
       )
     );
   }

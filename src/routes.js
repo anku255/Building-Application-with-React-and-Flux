@@ -15,6 +15,11 @@ const routes = (
       name="authors"
       handler={require("./components/authors/authorPage")}
     />
+    <Route
+      name="addAuthor"
+      path="author"
+      handler={require("./components/authors/manageAuthorPage")}
+    />
     <Route name="about" handler={require("./components/about/aboutPage")} />
     <NotFoundRoute handler={require("./components/notFoundPage")} />
     <Redirect from="about/*" to="about" />

@@ -25,7 +25,12 @@ const AuthorFrom = React.createClass({
           placeholder="Last Name"
         />
         <br />
-        <input type="submit" value="Save" className="btn btn-default" />
+        <input
+          type="submit"
+          value="Save"
+          className="btn btn-default"
+          onClick={this.props.onSave}
+        />
       </form>
     );
   }

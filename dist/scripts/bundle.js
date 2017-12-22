@@ -49662,7 +49662,13 @@ const React = require("react");
 const Input = require("../common/textInput");
 
 const AuthorFrom = React.createClass({displayName: "AuthorFrom",
-  
+  propTypes: {
+    author: React.PropTypes.object.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    errors: React.PropTypes.object
+  },
+
   render() {
     return (
       React.createElement("form", null, 
@@ -49783,14 +49789,24 @@ const AuthorApi = require("../../api/authorApi");
 const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
   mixins: [Router.Navigation],
 
+  statics: {
+    willTransitionFrom(transition, component) {
+      if (component.state.dirty && !confirm("Leave without saving!")) {
+        transition.abort();
+      }
+    }
+  },
+
   getInitialState() {
     return {
       author: { id: "", firstName: "", lastName: "" },
-      errors: {}
+      errors: {},
+      dirty: false
     };
   },
 
   setAuthorState(event) {
+    this.setState({ dirty: true });
     const field = event.target.name;
     const value = event.target.value;
     this.state.author[field] = value;
@@ -49821,6 +49837,7 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
     }
 
     AuthorApi.saveAuthor(this.state.author);
+    this.setState({ dirty: false });
     toastr.success("Author Saved!");
     this.transitionTo("authors");
   },

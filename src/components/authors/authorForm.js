@@ -4,7 +4,7 @@ const React = require("react");
 const Input = require("../common/textInput");
 
 const AuthorFrom = React.createClass({
-  propTypes = {
+  propTypes: {
     author: React.PropTypes.object.isRequired,
     onSave: React.PropTypes.func.isRequired,
     onChange: React.PropTypes.func.isRequired,

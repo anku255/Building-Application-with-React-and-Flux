@@ -42,8 +42,8 @@ Dispatcher.register(action => {
       AuthorStore.emitChange();
       break;
     case ActionTypes.UPDATE_AUTHOR:
-      const oldAuthor = _.find(authors, { id: action.author.id });
-      const oldAuthorIndex = _.indexOf(authors, oldAuthor);
+      const oldAuthor = _.find(_authors, { id: action.author.id });
+      const oldAuthorIndex = _.indexOf(_authors, oldAuthor);
       _authors.splice(oldAuthorIndex, 1, action.author);
       AuthorStore.emitChange();
       break;

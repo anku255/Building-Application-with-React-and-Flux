@@ -50890,16 +50890,19 @@ Dispatcher.register(action => {
       _authors = action.initialData.authors;
       AuthorStore.emitChange();
       break;
+
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
       break;
+
     case ActionTypes.UPDATE_AUTHOR:
       const oldAuthor = _.find(_authors, { id: action.author.id });
       const oldAuthorIndex = _.indexOf(_authors, oldAuthor);
       _authors.splice(oldAuthorIndex, 1, action.author);
       AuthorStore.emitChange();
       break;
+
     case ActionTypes.DELETE_AUTHOR:
       _.remove(_authors, author => {
         return action.id === author.id;

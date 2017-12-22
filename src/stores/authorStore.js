@@ -7,7 +7,7 @@ const assign = require("object-assign");
 const _ = require("lodash");
 const CHANGE_EVENT = "change";
 
-const _authors = [];
+let _authors = [];
 
 const AuthorStore = assign({}, EventEmitter.prototype, {
   addChangeListener(callback) {
@@ -33,6 +33,10 @@ const AuthorStore = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(action => {
   switch (action.actionType) {
+    case ActionTypes.INITIALIZE:
+      _authors = action.initialData.authors;
+      AuthorStore.emitChange();
+      break;
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();

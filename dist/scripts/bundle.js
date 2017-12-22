@@ -50268,7 +50268,26 @@ const AuthorActions = {
 };
 
 module.exports = AuthorActions;
-},{"../api/authorApi":205,"../constants/actionTypes":217,"../dispatcher/appDispatcher":218}],205:[function(require,module,exports){
+},{"../api/authorApi":206,"../constants/actionTypes":218,"../dispatcher/appDispatcher":219}],205:[function(require,module,exports){
+"use strict";
+
+const Dispatcher = require("../dispatcher/appDispatcher");
+const ActionTypes = require("../constants/actionTypes");
+const AuthorApi = require("../api/authorApi");
+
+const InitializeActions = {
+  initApp() {
+    Dispatcher.dispatch({
+      actionType: ActionTypes.INITIALIZE,
+      initialData: {
+        authors: AuthorApi.getAllAuthors()
+      }
+    });
+  }
+};
+
+module.exports = InitializeActions;
+},{"../api/authorApi":206,"../constants/actionTypes":218,"../dispatcher/appDispatcher":219}],206:[function(require,module,exports){
 "use strict";
 
 //This file is mocking a web API by hitting hard coded data.
@@ -50326,7 +50345,7 @@ var AuthorApi = {
 };
 
 module.exports = AuthorApi;
-},{"./authorData":206,"lodash":6}],206:[function(require,module,exports){
+},{"./authorData":207,"lodash":6}],207:[function(require,module,exports){
 module.exports = {
   authors: [
     {
@@ -50346,7 +50365,7 @@ module.exports = {
     }
   ]
 };
-},{}],207:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50368,7 +50387,7 @@ const About = React.createClass({displayName: "About",
 });
 
 module.exports = About;
-},{"react":202}],208:[function(require,module,exports){
+},{"react":202}],209:[function(require,module,exports){
 /*eslint-disable strict*/
 
 $ = jQuery = require("jquery");
@@ -50389,7 +50408,7 @@ const App = React.createClass({displayName: "App",
 });
 
 module.exports = App;
-},{"./common/header":213,"jquery":5,"react":202,"react-router":33}],209:[function(require,module,exports){
+},{"./common/header":214,"jquery":5,"react":202,"react-router":33}],210:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50438,7 +50457,7 @@ const AuthorFrom = React.createClass({displayName: "AuthorFrom",
 });
 
 module.exports = AuthorFrom;
-},{"../common/textInput":214,"react":202}],210:[function(require,module,exports){
+},{"../common/textInput":215,"react":202}],211:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50479,7 +50498,7 @@ const AuthorList = React.createClass({displayName: "AuthorList",
 });
 
 module.exports = AuthorList;
-},{"react":202,"react-router":33}],211:[function(require,module,exports){
+},{"react":202,"react-router":33}],212:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50509,7 +50528,7 @@ const AuthorPage = React.createClass({displayName: "AuthorPage",
 });
 
 module.exports = AuthorPage;
-},{"../../actions/authorActions":204,"../../stores/authorStore":221,"./authorList":210,"react":202,"react-router":33}],212:[function(require,module,exports){
+},{"../../actions/authorActions":204,"../../stores/authorStore":222,"./authorList":211,"react":202,"react-router":33}],213:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50596,7 +50615,7 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
 });
 
 module.exports = ManageAuthorPage;
-},{"../../actions/authorActions":204,"../../stores/authorStore":221,"./authorForm":209,"react":202,"react-router":33,"toastr":203}],213:[function(require,module,exports){
+},{"../../actions/authorActions":204,"../../stores/authorStore":222,"./authorForm":210,"react":202,"react-router":33,"toastr":203}],214:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50629,7 +50648,7 @@ const Header = React.createClass({displayName: "Header",
 });
 
 module.exports = Header;
-},{"react":202,"react-router":33}],214:[function(require,module,exports){
+},{"react":202,"react-router":33}],215:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50669,7 +50688,7 @@ const Input = React.createClass({displayName: "Input",
 });
 
 module.exports = Input;
-},{"react":202}],215:[function(require,module,exports){
+},{"react":202}],216:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50691,7 +50710,7 @@ const Home = React.createClass({displayName: "Home",
 });
 
 module.exports = Home;
-},{"react":202,"react-router":33}],216:[function(require,module,exports){
+},{"react":202,"react-router":33}],217:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50712,15 +50731,16 @@ const NotFoundPage = React.createClass({displayName: "NotFoundPage",
 });
 
 module.exports = NotFoundPage;
-},{"react":202,"react-router":33}],217:[function(require,module,exports){
+},{"react":202,"react-router":33}],218:[function(require,module,exports){
 "use strict";
 
 const keyMirror = require("react/lib/keyMirror");
 
 module.exports = keyMirror({
+  INITIALIZE: null,
   CREATE_AUTHOR: null
 });
-},{"react/lib/keyMirror":187}],218:[function(require,module,exports){
+},{"react/lib/keyMirror":187}],219:[function(require,module,exports){
 /**
  * AppDispatcher
  *
@@ -50730,16 +50750,19 @@ module.exports = keyMirror({
 const Dispatcher = require("flux").Dispatcher;
 
 module.exports = new Dispatcher();
-},{"flux":2}],219:[function(require,module,exports){
+},{"flux":2}],220:[function(require,module,exports){
 "use strict";
 const React = require("react");
 const Router = require("react-router");
 const routes = require("./routes");
+const InitializeActions = require("./actions/initializeActions");
+
+InitializeActions.initApp();
 
 Router.run(routes, Handler => {
   React.render(React.createElement(Handler, null), document.getElementById("app"));
 });
-},{"./routes":220,"react":202,"react-router":33}],220:[function(require,module,exports){
+},{"./actions/initializeActions":205,"./routes":221,"react":202,"react-router":33}],221:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -50774,7 +50797,7 @@ const routes = (
 );
 
 module.exports = routes;
-},{"./components/about/aboutPage":207,"./components/app":208,"./components/authors/authorPage":211,"./components/authors/manageAuthorPage":212,"./components/homePage":215,"./components/notFoundPage":216,"react":202,"react-router":33}],221:[function(require,module,exports){
+},{"./components/about/aboutPage":208,"./components/app":209,"./components/authors/authorPage":212,"./components/authors/manageAuthorPage":213,"./components/homePage":216,"./components/notFoundPage":217,"react":202,"react-router":33}],222:[function(require,module,exports){
 "use strict";
 
 const Dispatcher = require("../dispatcher/appDispatcher");
@@ -50784,7 +50807,7 @@ const assign = require("object-assign");
 const _ = require("lodash");
 const CHANGE_EVENT = "change";
 
-const _authors = [];
+let _authors = [];
 
 const AuthorStore = assign({}, EventEmitter.prototype, {
   addChangeListener(callback) {
@@ -50810,6 +50833,10 @@ const AuthorStore = assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(action => {
   switch (action.actionType) {
+    case ActionTypes.INITIALIZE:
+      _authors = action.initialData.authors;
+      AuthorStore.emitChange();
+      break;
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
@@ -50817,4 +50844,4 @@ Dispatcher.register(action => {
 });
 
 module.exports = AuthorStore;
-},{"../constants/actionTypes":217,"../dispatcher/appDispatcher":218,"events":1,"lodash":6,"object-assign":7}]},{},[219]);
+},{"../constants/actionTypes":218,"../dispatcher/appDispatcher":219,"events":1,"lodash":6,"object-assign":7}]},{},[220]);

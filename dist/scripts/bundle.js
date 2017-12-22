@@ -50264,6 +50264,16 @@ const AuthorActions = {
       actionType: ActionTypes.CREATE_AUTHOR,
       author: newAuthor
     });
+  },
+
+  updateAuthor(author) {
+    const updatedAuthor = AuthorApi.saveAuthor(author);
+
+    // Hey dispatcher, go tell all the stores that an author was just created.
+    Dispatcher.dispatch({
+      actionType: ActionTypes.UPDATE_AUTHOR,
+      author: updatedAuthor
+    });
   }
 };
 
@@ -50596,7 +50606,12 @@ const ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
       return;
     }
 
-    AuthorActions.createAuthor(this.state.author);
+    if (this.state.author.id) {
+      AuthorActions.updateAuthor(this.state.author);
+    } else {
+      AuthorActions.createAuthor(this.state.author);
+    }
+  
     this.setState({ dirty: false });
     toastr.success("Author Saved!");
     this.transitionTo("authors");
@@ -50738,7 +50753,8 @@ const keyMirror = require("react/lib/keyMirror");
 
 module.exports = keyMirror({
   INITIALIZE: null,
-  CREATE_AUTHOR: null
+  CREATE_AUTHOR: null,
+  UPDATE_AUTHOR: null
 });
 },{"react/lib/keyMirror":187}],219:[function(require,module,exports){
 /**
@@ -50840,6 +50856,13 @@ Dispatcher.register(action => {
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
+      break;
+    case ActionTypes.UPDATE_AUTHOR:
+      const oldAuthor = _.find(authors, { id: action.author.id });
+      const oldAuthorIndex = _.indexOf(authors, oldAuthor);
+      _authors.splice(oldAuthorIndex, 1, action.author);
+      AuthorStore.emitChange();
+      break;
   }
 });
 

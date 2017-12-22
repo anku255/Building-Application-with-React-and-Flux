@@ -40,6 +40,13 @@ Dispatcher.register(action => {
     case ActionTypes.CREATE_AUTHOR:
       _authors.push(action.author);
       AuthorStore.emitChange();
+      break;
+    case ActionTypes.UPDATE_AUTHOR:
+      const oldAuthor = _.find(authors, { id: action.author.id });
+      const oldAuthorIndex = _.indexOf(authors, oldAuthor);
+      _authors.splice(oldAuthorIndex, 1, action.author);
+      AuthorStore.emitChange();
+      break;
   }
 });
 

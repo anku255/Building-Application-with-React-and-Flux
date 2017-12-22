@@ -13,6 +13,19 @@ const AuthorPage = React.createClass({
     };
   },
 
+  componentWillMount() {
+    AuthorStore.addChangeListener(this._onChange);
+  },
+
+  // Clean up when this component is unmounted
+  componentWillUnmount() {
+    AuthorStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange() {
+    this.setState({ authors: AuthorStore.getAllAuthors() });
+  },
+
   render() {
     return (
       <div>

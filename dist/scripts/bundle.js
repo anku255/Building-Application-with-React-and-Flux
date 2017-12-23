@@ -50907,7 +50907,6 @@ const CourseList = React.createClass({displayName: "CourseList",
 
   render() {
     const createCourseRow = course => {
-      console.log("createCourseRow");
       return (
         React.createElement("tr", {key: course.id}, 
           React.createElement("td", null, 

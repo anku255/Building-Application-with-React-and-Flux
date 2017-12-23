@@ -17,7 +17,6 @@ const CourseList = React.createClass({
 
   render() {
     const createCourseRow = course => {
-      console.log("createCourseRow");
       return (
         <tr key={course.id}>
           <td>

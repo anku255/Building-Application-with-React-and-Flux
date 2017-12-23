@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const Link = require("react-router").Link;
 const CourseStore = require("../../stores/courseStore");
 const CourseList = require("./courseList");
 
@@ -28,6 +29,9 @@ const CoursePage = React.createClass({
     return (
       <div>
         <h1>Courses</h1>
+        <Link to="addCourse" className="btn btn-default">
+          Add Course
+        </Link>
         <CourseList courses={this.state.courses} />
       </div>
     );

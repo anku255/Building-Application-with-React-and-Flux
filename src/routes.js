@@ -29,6 +29,10 @@ const routes = (
       name="courses"
       handler={require("./components/courses/coursePage")}
     />
+    <Route
+      name="addCourse"
+      handler={require("./components/courses/manageCoursePage")}
+    />
     <Route name="about" handler={require("./components/about/aboutPage")} />
     <NotFoundRoute handler={require("./components/notFoundPage")} />
     <Redirect from="about/*" to="about" />

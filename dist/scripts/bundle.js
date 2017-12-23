@@ -50903,14 +50903,20 @@ const CourseForm = React.createClass({displayName: "CourseForm",
     return (
       React.createElement("form", null, 
         React.createElement("h1", null, "Manage Course"), 
-        React.createElement(Input, {name: "title", label: "Title", onChange: this.props.onChange}), 
+        React.createElement(Input, {
+          name: "title", 
+          label: "Title", 
+          onChange: this.props.onChange, 
+          value: this.props.course.title}
+        ), 
         React.createElement("br", null), 
         React.createElement("label", {htmlFor: "author"}, "Author"), 
         React.createElement("select", {
           name: "author", 
           id: "author", 
           className: "form-control", 
-          onChange: this.props.onChange
+          onChange: this.props.onChange, 
+          value: this.props.course.author.name
         }, 
           this.props.authors.map(author => {
             return (
@@ -50924,10 +50930,16 @@ const CourseForm = React.createClass({displayName: "CourseForm",
         React.createElement(Input, {
           name: "category", 
           label: "Category", 
-          onChange: this.props.onChange}
+          onChange: this.props.onChange, 
+          value: this.props.course.category}
         ), 
         React.createElement("br", null), 
-        React.createElement(Input, {name: "length", label: "Length", onChange: this.props.onChange}), 
+        React.createElement(Input, {
+          name: "length", 
+          label: "Length", 
+          onChange: this.props.onChange, 
+          value: this.props.course.length}
+        ), 
         React.createElement("br", null), 
         React.createElement("input", {
           type: "submit", 
@@ -50945,6 +50957,7 @@ module.exports = CourseForm;
 "use strict";
 
 const React = require("react");
+const Link = require("react-router").Link;
 const CourseActions = require("../../actions/courseActions");
 const toastr = require("toastr");
 
@@ -50971,7 +50984,11 @@ const CourseList = React.createClass({displayName: "CourseList",
           React.createElement("td", null, 
             React.createElement("a", {href: course.watchHref}, "Watch")
           ), 
-          React.createElement("td", null, course.title), 
+          React.createElement("td", null, 
+            React.createElement(Link, {to: "manageCourse", params: { id: course.id}}, 
+              course.title
+            )
+          ), 
           React.createElement("td", null, course.author.name), 
           React.createElement("td", null, course.category), 
           React.createElement("td", null, course.length)
@@ -50998,7 +51015,7 @@ const CourseList = React.createClass({displayName: "CourseList",
 });
 
 module.exports = CourseList;
-},{"../../actions/courseActions":205,"react":202,"toastr":203}],221:[function(require,module,exports){
+},{"../../actions/courseActions":205,"react":202,"react-router":33,"toastr":203}],221:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -51049,6 +51066,7 @@ const toastr = require("toastr");
 const CourseForm = require("./courseForm");
 const AuthorStore = require("../../stores/authorStore");
 const CourseActions = require("../../actions/courseActions");
+const CourseStore = require("../../stores/courseStore");
 
 const ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
   mixins: [Router.Navigation],
@@ -51058,6 +51076,14 @@ const ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
       authors: AuthorStore.getAllAuthors(),
       course: { title: "", author: {}, category: "", length: "" }
     };
+  },
+
+  componentWillMount() {
+    const courseId = this.props.params.id;
+
+    if (courseId) {
+      this.setState({ course: CourseStore.getCourseById(courseId) });
+    }
   },
 
   setCourseState(event) {
@@ -51073,7 +51099,13 @@ const ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
 
   saveCourse(event) {
     event.preventDefault();
-    CourseActions.createCourse(this.state.course);
+
+    if (this.state.course.id) {
+      CourseActions.updateCourse(this.state.course);
+    } else {
+      CourseActions.createCourse(this.state.course);
+    }
+
     toastr.success("Course Saved!");
     this.transitionTo("courses");
   },
@@ -51082,6 +51114,7 @@ const ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
     return (
       React.createElement(CourseForm, {
         authors: this.state.authors, 
+        course: this.state.course, 
         onChange: this.setCourseState, 
         onSave: this.saveCourse}
       )
@@ -51090,7 +51123,7 @@ const ManageCoursePage = React.createClass({displayName: "ManageCoursePage",
 });
 
 module.exports = ManageCoursePage;
-},{"../../actions/courseActions":205,"../../stores/authorStore":229,"./courseForm":219,"react":202,"react-router":33,"toastr":203}],223:[function(require,module,exports){
+},{"../../actions/courseActions":205,"../../stores/authorStore":229,"../../stores/courseStore":230,"./courseForm":219,"react":202,"react-router":33,"toastr":203}],223:[function(require,module,exports){
 "use strict";
 
 const React = require("react");
@@ -51203,6 +51236,11 @@ const routes = (
     ), 
     React.createElement(Route, {
       name: "addCourse", 
+      handler: require("./components/courses/manageCoursePage")}
+    ), 
+    React.createElement(Route, {
+      name: "manageCourse", 
+      path: "course/:id", 
       handler: require("./components/courses/manageCoursePage")}
     ), 
     React.createElement(Route, {name: "about", handler: require("./components/about/aboutPage")}), 

@@ -1,6 +1,7 @@
 "use strict";
 
 const React = require("react");
+const Link = require("react-router").Link;
 const CourseActions = require("../../actions/courseActions");
 const toastr = require("toastr");
 
@@ -27,7 +28,11 @@ const CourseList = React.createClass({
           <td>
             <a href={course.watchHref}>Watch</a>
           </td>
-          <td>{course.title}</td>
+          <td>
+            <Link to="manageCourse" params={{ id: course.id }}>
+              {course.title}
+            </Link>
+          </td>
           <td>{course.author.name}</td>
           <td>{course.category}</td>
           <td>{course.length}</td>

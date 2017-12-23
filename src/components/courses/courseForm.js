@@ -13,7 +13,12 @@ const CourseForm = React.createClass({
     return (
       <form>
         <h1>Manage Course</h1>
-        <Input name="title" label="Title" onChange={this.props.onChange} />
+        <Input
+          name="title"
+          label="Title"
+          onChange={this.props.onChange}
+          value={this.props.course.title}
+        />
         <br />
         <label htmlFor="author">Author</label>
         <select
@@ -21,6 +26,7 @@ const CourseForm = React.createClass({
           id="author"
           className="form-control"
           onChange={this.props.onChange}
+          value={this.props.course.author.name}
         >
           {this.props.authors.map(author => {
             return (
@@ -35,9 +41,15 @@ const CourseForm = React.createClass({
           name="category"
           label="Category"
           onChange={this.props.onChange}
+          value={this.props.course.category}
         />
         <br />
-        <Input name="length" label="Length" onChange={this.props.onChange} />
+        <Input
+          name="length"
+          label="Length"
+          onChange={this.props.onChange}
+          value={this.props.course.length}
+        />
         <br />
         <input
           type="submit"

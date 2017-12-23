@@ -6,6 +6,7 @@ const toastr = require("toastr");
 const CourseForm = require("./courseForm");
 const AuthorStore = require("../../stores/authorStore");
 const CourseActions = require("../../actions/courseActions");
+const CourseStore = require("../../stores/courseStore");
 
 const ManageCoursePage = React.createClass({
   mixins: [Router.Navigation],
@@ -15,6 +16,14 @@ const ManageCoursePage = React.createClass({
       authors: AuthorStore.getAllAuthors(),
       course: { title: "", author: {}, category: "", length: "" }
     };
+  },
+
+  componentWillMount() {
+    const courseId = this.props.params.id;
+
+    if (courseId) {
+      this.setState({ course: CourseStore.getCourseById(courseId) });
+    }
   },
 
   setCourseState(event) {
@@ -30,7 +39,13 @@ const ManageCoursePage = React.createClass({
 
   saveCourse(event) {
     event.preventDefault();
-    CourseActions.createCourse(this.state.course);
+
+    if (this.state.course.id) {
+      CourseActions.updateCourse(this.state.course);
+    } else {
+      CourseActions.createCourse(this.state.course);
+    }
+
     toastr.success("Course Saved!");
     this.transitionTo("courses");
   },
@@ -39,6 +54,7 @@ const ManageCoursePage = React.createClass({
     return (
       <CourseForm
         authors={this.state.authors}
+        course={this.state.course}
         onChange={this.setCourseState}
         onSave={this.saveCourse}
       />

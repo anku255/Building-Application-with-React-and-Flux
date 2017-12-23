@@ -44,7 +44,7 @@ const AuthorList = React.createClass({
             <th>ID</th>
             <th>Name</th>
           </thead>
-          <tbody>{this.props.authors.map(createAuthorRow, this)};</tbody>
+          <tbody>{this.props.authors.map(createAuthorRow, this)}</tbody>
         </table>
       </div>
     );

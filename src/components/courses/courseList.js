@@ -1,10 +1,18 @@
 "use strict";
 
 const React = require("react");
+const CourseActions = require("../../actions/courseActions");
+const toastr = require("toastr");
 
 const CourseList = React.createClass({
   propTypes: {
     courses: React.PropTypes.array.isRequired
+  },
+
+  deleteCourse(id, event) {
+    event.preventDefault();
+    CourseActions.deleteCourse(id);
+    toastr.success("Course Deleted!");
   },
 
   render() {
@@ -12,6 +20,11 @@ const CourseList = React.createClass({
       console.log("createCourseRow");
       return (
         <tr key={course.id}>
+          <td>
+            <a href="#" onClick={this.deleteCourse.bind(this, course.id)}>
+              Delete
+            </a>
+          </td>
           <td>
             <a href={course.watchHref}>Watch</a>
           </td>
@@ -27,6 +40,7 @@ const CourseList = React.createClass({
       <div>
         <table className="table">
           <thead>
+            <th />
             <th />
             <th>Title</th>
             <th>Author</th>

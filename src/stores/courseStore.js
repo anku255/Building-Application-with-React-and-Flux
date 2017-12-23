@@ -32,7 +32,7 @@ const CourseStore = assign({}, EventEmitter.prototype, {
 });
 
 Dispatcher.register(action => {
-  switch (action.ActionType) {
+  switch (action.actionType) {
     case ActionTypes.INITIALIZE:
       _courses = action.initialData.courses;
       CourseStore.emitChange();
